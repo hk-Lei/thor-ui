@@ -22,6 +22,9 @@ module.exports = function (option) {
 	let promise = new Promise((resolve, reject) => {
 		request(options, (error, response) => {
 			if(error) {
+				console.log('error url',options.url);
+				console.log('error',error);
+				console.log('error.stack',error.stack);
 				return resolve({error: error});
 			}
 			return resolve(JSON.parse(response.body));
