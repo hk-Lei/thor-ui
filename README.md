@@ -1,7 +1,3 @@
-### 去骑后台管理系统--后端
+## Thor UI 
 
-### 运行
-```
-npm install       	#安装所有依赖
-npm run dev     	#启动项目
-```
+### Thor UI 是 Thor 采集程序的实时监控界面
