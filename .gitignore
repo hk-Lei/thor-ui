@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+# .idea
+.idea
+node_modules
+*/images
+1.js
+2.js
+webpack.config.js
+coverage
+npm-debug.log

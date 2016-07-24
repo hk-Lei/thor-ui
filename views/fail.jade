@@ -1,0 +1,12 @@
+extends layout
+block title
+	title #{parseInt(orderId || 0) ? '订单支付失败' : '报名失败'}
+block content
+	.notice
+		.content
+			p.p-l #{parseInt(orderId || 0) ? '支付失败' : '报名失败'}
+			if parseInt(orderId || 0)
+				a.a-btn.a-btn-s.bg-color-confirm(onclick="window.location='/orders/#{orderId}'") 重新支付
+			else
+				a.a-btn.a-btn-s.bg-color-confirm(onclick="javascript:history.go(-1)") 重新报名
+				

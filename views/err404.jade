@@ -1,0 +1,9 @@
+extends ./layout
+block title
+	title 出错啦
+block content
+	.error
+		.header Oops.
+		.body 错误代码：404，可能是此页面没有注册或者尚未通过申请
+		.footer
+			a.a-btn(onclick="javascript :history.go(-1);") 返回上一页

@@ -1,0 +1,9 @@
+extends ./layout
+block title
+	title 出错啦
+block content
+	.error
+		.header Oops.
+		.body 错误代码：500，此页面有程序错误或正在维护！
+		.footer
+			a.a-btn(onclick="javascript :history.go(-1);") 返回上一页

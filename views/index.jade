@@ -1,0 +1,81 @@
+extends ./layout
+block content
+	.row
+		for nodes, title in connectors
+			.col-lg-3.index-group(name='#{title}')
+				.ibox
+					.ibox-content
+						.top
+							span(style ="float:left;") 
+								h2(style="font-weight:500;") #{title}
+							span(style ="float:right;")
+								a.node-plus(data-title='#{title}')
+									i.fa.fa-plus.text-right
+						table.table.table-stripped.small.m-t-md
+							tbody
+								for node, key in nodes
+									tr
+										td
+											if(node.status)
+												i.fa.fa-circle.text-navy
+											else
+												i.fa.fa-circle.text-danger
+										td.node(id='#{title+ "_"+key}')
+											| #{key}
+	#modal-form.modal.fade(aria-hidden='true')
+		.modal-dialog
+			.modal-content
+				.modal-body
+					.row
+						.col-sm-12
+							h3.m-t-none.m-b 添加节点
+							form(role='form')
+								.form-group
+									label 组
+									input.form-control(name='group' type='text' readonly)
+								.form-group
+									label IP
+									input.form-control(name='ip' type='text', placeholder='Enter IP')
+								.form-group
+									label Port
+									input.form-control(name='port' type='text', placeholder='Enter Port')
+						.col-sm-12
+							button.btn-node-plus.btn.btn-sm.btn-primary.pull-right.m-t-n-xs
+								strong 确定		
+									
+										
+block scripts
+	script(type="text/javascript").
+		
+		$('.node').on('click', function () {
+			var name = this.id.split('_')[0];
+			var node = this.id.split('_')[1];
+			window.location = `/connector?name=${name}&node=${node}`
+			
+		});
+		$('.node-plus').on('click', function () {
+			var title = $(this).data('title');
+			
+			$("#modal-form").find('[name=group]').val(title);
+			$('#modal-form').modal('show');
+		});
+		$('.btn-node-plus').click(function () {
+			var group = $('#modal-form').find('[name=group]').val();
+			var ip = $('#modal-form').find('[name=ip]').val();
+			var port = $('#modal-form').find('[name=port]').val();
+			var body = {group:group, ip:ip, port: port};
+			$.ajax({
+				url: '/nodes',
+				type: 'POST',
+				data: body,
+				dataType: "JSON",
+				success: function (resp) {
+					$('#modal-form').modal('hide');
+					
+				},
+				error: function (err) {
+					alert(err.message);
+				}
+			});
+		});
+		
