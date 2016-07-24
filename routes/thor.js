@@ -894,6 +894,6 @@ function getDatas(groupsNodes, nodesGroups) {
 	// }
 	// return new Promise((resolve, reject) =>{
 	// 	resolve(a);
-	// });
+	// 	});
 }
 exports.getDatas = getDatas;
