@@ -61,7 +61,7 @@ block scripts
 					"  <td>",
 					connect.status ? "<i class=\"fa fa-circle text-navy\"></i>" : "<i class=\"fa fa-circle text-danger\"></i>",
 					"  </td>",
-					"  <td data-toggle=\"tooltip\" data-placement=\"left\" title=\""+ JSON.stringify(connect,undefined,2) +"\" class=\"connect\">"+key+"</td>",
+					"  <td data-toggle=\"tooltip\" data-placement=\"left\" title=\'"+ JSON.stringify(connect,undefined,2) +"\' class=\"connect\">"+key+"</td>",
 					"  <td class=\"options\"><i class=\"fa fa-times text-danger\"></i>&nbsp;&nbsp;<i class=\"fa fa-power-off text-danger\"></i>&nbsp;&nbsp;<i class=\"fa fa-repeat text-navy\"></i>&nbsp;&nbsp;<i class=\"fa fa-play text-navy\"></i></td>",
 					"</tr>"].join("");
 				$('#connectors').append(tbody);
