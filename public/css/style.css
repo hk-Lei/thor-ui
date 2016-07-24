@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&lang=en");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
+.node-curr {
+	border-right: 5px solid red;
+}
 /*
  *
  *   INSPINIA - Responsive Admin Theme

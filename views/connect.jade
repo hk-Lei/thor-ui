@@ -4,9 +4,9 @@ block content
 		.col-lg-3
 			.ibox
 				.ibox-content
-					h5 #{name}
-					table.table.table-stripped.small.m-t-md
-						tbody
+					h5 #{group}
+					table.table.table-stripped.small.m-t-md.nodes
+						tbody#nodes
 							for node, key in nodes
 								tr
 									td
@@ -14,13 +14,17 @@ block content
 											i.fa.fa-circle.text-navy
 										else
 											i.fa.fa-circle.text-danger
-									td
-											| #{node}
+									if key === nodeCurr
+										td.node.node-curr(id='#{group + "_" + key}')
+											| #{key}
+									else
+										td.node(id='#{group + "_" + key}')
+											| #{key}
 		.col-lg-9
 			.ibox
 				.ibox-content
 					table.table.table-stripped.small.m-t-md
-						tbody
+						tbody#connectors
 							for connect, key in connectors
 								tr
 									td
@@ -41,10 +45,25 @@ block content
 								
 block scripts
 	script(type="text/javascript").
-		$('.node').onclick(function () {
-			$(this).addClass('.active');
-			
+		var group = '#{group}';
+		var nodes = !{JSON.stringify(nodes)};
+		var nodeCurr = '#{group+"_"+nodeCurr}';
+		$('.node').on('click', function () {
+			var node = this.id.split('_')[1];
+			$('.node').removeClass('node-curr');
+			nodeCurr = this.id;
+			$(this).addClass('node-curr');
+			var connectors = nodes[node].connectors;
+			$('#connectors').empty();
+			for(var key in connectors){
+				connect = connectors[key];
+				var tbody = ["<tr>",
+					"  <td>",
+					connect.status ? "<i class=\"fa fa-circle text-navy\"></i>" : "<i class=\"fa fa-circle text-danger\"></i>",
+					"  </td>",
+					"  <td data-toggle=\"tooltip\" data-placement=\"left\" title=\""+ JSON.stringify(connect,undefined,2) +"\" class=\"connect\">"+key+"</td>",
+					"  <td class=\"options\"><i class=\"fa fa-times text-danger\"></i>&nbsp;&nbsp;<i class=\"fa fa-power-off text-danger\"></i>&nbsp;&nbsp;<i class=\"fa fa-repeat text-navy\"></i>&nbsp;&nbsp;<i class=\"fa fa-play text-navy\"></i></td>",
+					"</tr>"].join("");
+				$('#connectors').append(tbody);
+			}
 		});
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip()
-		})

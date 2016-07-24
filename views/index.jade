@@ -1,15 +1,15 @@
 extends ./layout
 block content
 	.row
-		for nodes, title in connectors
-			.col-lg-3.index-group(name='#{title}')
+		for nodes, group in connectors
+			.col-lg-3.index-group(name='#{group}')
 				.ibox
 					.ibox-content
 						.top
 							span(style ="float:left;") 
-								h2(style="font-weight:500;") #{title}
+								h2(style="font-weight:500;") #{group}
 							span(style ="float:right;")
-								a.node-plus(data-title='#{title}')
+								a.node-plus(data-group='#{group}')
 									i.fa.fa-plus.text-right
 						table.table.table-stripped.small.m-t-md
 							tbody
@@ -20,7 +20,7 @@ block content
 												i.fa.fa-circle.text-navy
 											else
 												i.fa.fa-circle.text-danger
-										td.node(id='#{title+ "_"+key}')
+										td.node(id='#{group+ "_"+key}')
 											| #{key}
 	#modal-form.modal.fade(aria-hidden='true')
 		.modal-dialog
@@ -48,15 +48,15 @@ block scripts
 	script(type="text/javascript").
 		
 		$('.node').on('click', function () {
-			var name = this.id.split('_')[0];
+			var group = this.id.split('_')[0];
 			var node = this.id.split('_')[1];
-			window.location = `/connector?name=${name}&node=${node}`
+			window.location = `/connector?group=${group}&node=${node}`
 			
 		});
 		$('.node-plus').on('click', function () {
-			var title = $(this).data('title');
+			var group = $(this).data('group');
 			
-			$("#modal-form").find('[name=group]').val(title);
+			$("#modal-form").find('[name=group]').val(group);
 			$('#modal-form').modal('show');
 		});
 		$('.btn-node-plus').click(function () {
