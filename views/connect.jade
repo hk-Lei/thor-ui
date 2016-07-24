@@ -1,0 +1,50 @@
+extends ./layout
+block content
+	.row
+		.col-lg-3
+			.ibox
+				.ibox-content
+					h5 #{name}
+					table.table.table-stripped.small.m-t-md
+						tbody
+							for node, key in nodes
+								tr
+									td
+										if(node.status)
+											i.fa.fa-circle.text-navy
+										else
+											i.fa.fa-circle.text-danger
+									td
+											| #{node}
+		.col-lg-9
+			.ibox
+				.ibox-content
+					table.table.table-stripped.small.m-t-md
+						tbody
+							for connect, key in connectors
+								tr
+									td
+										if(connect.status)
+											i.fa.fa-circle.text-navy
+										else
+											i.fa.fa-circle.text-danger
+									td.connect(data-toggle="tooltip" data-placement="left" title='#{JSON.stringify(connect,undefined,2)}')
+										| #{connect.config.name}
+									td.options
+										i.fa.fa-times.text-danger
+										| &nbsp;&nbsp;
+										i.fa.fa-power-off.text-danger
+										| &nbsp;&nbsp;
+										i.fa.fa-repeat.text-navy
+										| &nbsp;&nbsp;
+										i.fa.fa-play.text-navy
+								
+block scripts
+	script(type="text/javascript").
+		$('.node').onclick(function () {
+			$(this).addClass('.active');
+			
+		});
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
