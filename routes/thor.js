@@ -3,17 +3,11 @@ const groupsNodesFunc = require('../data').groupsNodes;
 const nodesGroupsFunc = require('../data').nodesGroups;
 const request = require('../util/request');
 const fs = require('fs');
+const sendEmail = require('../util/sendEmail').sendEmail;
 
 
 exports.index = (req, res, next) => {
-	getDatas(groupsNodesFunc(), nodesGroupsFunc()).then(result => {
-		global.connectorsRes = result;
-		let connectorsRes = result;
-		res.render('index.jade', {connectors: connectorsRes});
-		// res.json({connectors: connectorsRes});
-	}).catch(
-		err => next(err)
-	);
+	res.render('index.jade', {connectors: global.connectorsRes});
 	
 };
 exports.connectors = (req, res, next) => {
@@ -40,13 +34,15 @@ exports.addNode = (req, res, next) => {
 	let node = ip + ':' + port;
 	
 	getDatas([node], [{node: node, name: group}]).then(result => {
-		global.connectorsRes[group][node] = result[group][node];
+		// global.connectorsRes[group][node] = result[group][node];
+		let newNode = {status: 0, connectors: {}};
+		global.connectorsRes[group][node] = newNode;
 		let groups = JSON.parse(fs.readFileSync('groups.json', {encoding: 'utf-8'}));
 		groups[group].nodes.push(node);
 
 		fs.writeFile('groups.json', JSON.stringify(groups), (err, results) => {
 			if (err) return res.status(500).json({message: 'something is wrong'});
-			return res.json(result);
+			return res.json({group: group, node: {node: newNode}});
 		});
 		
 	}).catch(err => next(err))
@@ -67,6 +63,7 @@ exports.addNode = (req, res, next) => {
 function getDatas(groupsNodes, nodesGroups) {
 	let connectors = [], connectorsInfos, connectorsStatus;
 	let connectorsRes = {};
+	
 	return Promise.all(groupsNodes.map((item) => {
 		return request({
 			url: `http://${item}/connectors`,
@@ -166,6 +163,8 @@ function getDatas(groupsNodes, nodesGroups) {
 		
 		return connectorsRes;
 	});
+	
+	
 	// let a = {
 	// 	"rtb": {
 	// 		"101.71.28.130:8183": {
@@ -896,4 +895,26 @@ function getDatas(groupsNodes, nodesGroups) {
 	// 	resolve(a);
 	// 	});
 }
+const getAllDatas = function () {
+	getDatas(groupsNodesFunc(), nodesGroupsFunc()).then(result => {
+		global.connectorsRes = result;
+		let errNodes = [];
+		for(let item in result){
+			let nodes = result[item];
+			for(let node in nodes){
+				if(result[item][node].status !== 1){
+					errNodes.push(node)
+				}
+			}
+		}
+		
+		if(errNodes.length){
+			sendEmail(errNodes);
+		}
+	}).catch(err =>{
+		console.log('=================================err',err);
+	} )
+	
+};
+exports.getAllDatas = getAllDatas;
 exports.getDatas = getDatas;
