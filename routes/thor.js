@@ -3,7 +3,6 @@ const groupsNodesFunc = require('../data').groupsNodes;
 const nodesGroupsFunc = require('../data').nodesGroups;
 const request = require('../util/request');
 const fs = require('fs');
-const sendEmail = require('../util/sendEmail').sendEmailWithShell;
 
 
 exports.index = (req, res, next) => {
@@ -899,19 +898,6 @@ function getDatas(groupsNodes, nodesGroups) {
 const getAllDatas = function () {
 	return getDatas(groupsNodesFunc(), nodesGroupsFunc()).then(result => {
 		global.connectorsRes = result;
-		let errNodes = [];
-		for(let item in result){
-			let nodes = result[item];
-			for(let node in nodes){
-				if(result[item][node].status !== 1){
-					errNodes.push(node)
-				}
-			}
-		}
-		
-		if(errNodes.length){
-			sendEmail(errNodes);
-		}
 	}).catch(err =>{
 		console.log('=================================err',err);
 	} )

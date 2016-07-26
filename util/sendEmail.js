@@ -2,6 +2,7 @@
 const nodemailer = require("nodemailer");
 const child_process = require('child_process');
 const transporter = nodemailer.createTransport('smtps://1321812120%40qq.com:Node.js1413@smtp.qq.com');
+const config = require('../config').config;
 
 const sendEmail = function (errNodes) {
 	errNodes = errNodes || [];
@@ -27,10 +28,11 @@ const sendEmail = function (errNodes) {
 };
 const sendEmailWithShell = function (errNodes) {
 	errNodes = errNodes || [];
+	let users = config.emails.join(' ')
 	if(errNodes.length){
 		errNodes = errNodes.join('\n    ');
 
-		child_process.exec(`echo -e "这是 thor-ui 发出的通知,您有服务器出现故障,请及时查看修复！\n    ${errNodes}" | mail -s "thor error" leihuaike@emar.com `, (error, result)=> {
+		child_process.exec(`echo -e "这是 thor-ui 发出的通知,您有服务器出现故障,请及时查看修复！\n    ${errNodes}" | mail -s "thor error" ${users} `, (error, result)=> {
 			if(error){
 				console.log('send email failed', error);
 			}else{
