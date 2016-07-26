@@ -30,7 +30,7 @@ const sendEmailWithShell = function (errNodes) {
 	if(errNodes.length){
 		errNodes = errNodes.join('\n    ');
 
-		child_process.exec(`echo -e "这是 thor-ui 发出的通知,您有服务器出现故障,请及时查看修复！\n    ${errNodes}" | mail -s "thor error" leihuaike@emar.com `, (err, result)=> {
+		child_process.exec(`echo -e "这是 thor-ui 发出的通知,您有服务器出现故障,请及时查看修复！\n    ${errNodes}" | mail -s "thor error" leihuaike@emar.com `, (error, result)=> {
 			if(error){
 				console.log('send email failed');
 			}else{
