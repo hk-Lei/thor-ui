@@ -3,7 +3,7 @@ const groupsNodesFunc = require('../data').groupsNodes;
 const nodesGroupsFunc = require('../data').nodesGroups;
 const request = require('../util/request');
 const fs = require('fs');
-const sendEmail = require('../util/sendEmail').sendEmail;
+const sendEmail = require('../util/sendEmail').sendEmailWithShell;
 
 
 exports.index = (req, res, next) => {
