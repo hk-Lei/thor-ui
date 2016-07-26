@@ -20,7 +20,6 @@ exports.every5mGetData = function () {
 	rule.minute = times;
 	
 	schedule.scheduleJob(rule, function () {
-		console.log('=================================content');
 		getAllDatas();
 	});
 };

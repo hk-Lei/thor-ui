@@ -900,7 +900,6 @@ const getAllDatas = function () {
 	return getDatas(groupsNodesFunc(), nodesGroupsFunc()).then(result => {
 		global.connectorsRes = result;
 		let errNodes = [];
-		console.log(result);
 		for(let item in result){
 			let nodes = result[item];
 			for(let node in nodes){
