@@ -7,8 +7,9 @@ const sendEmail = require('../util/sendEmail').sendEmail;
 
 
 exports.index = (req, res, next) => {
-	res.render('index.jade', {connectors: global.connectorsRes});
-	
+	getAllDatas().then(result => {
+		res.render('index.jade', {connectors: global.connectorsRes});
+	}).catch(err => next(err));
 };
 exports.connectors = (req, res, next) => {
 	let connectorsRes = global.connectorsRes;
@@ -896,9 +897,10 @@ function getDatas(groupsNodes, nodesGroups) {
 	// 	});
 }
 const getAllDatas = function () {
-	getDatas(groupsNodesFunc(), nodesGroupsFunc()).then(result => {
+	return getDatas(groupsNodesFunc(), nodesGroupsFunc()).then(result => {
 		global.connectorsRes = result;
 		let errNodes = [];
+		console.log(result);
 		for(let item in result){
 			let nodes = result[item];
 			for(let node in nodes){

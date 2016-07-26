@@ -5,6 +5,7 @@ const transporter = nodemailer.createTransport('smtps://1321812120%40qq.com:Node
 
 exports.sendEmail = function (errNodes) {
 	errNodes = errNodes || [];
+	console.log('=================================errNodes.toString()',errNodes.toString());
 	errNodes = errNodes.map((item)=>{
 		return 	`<li>${item}</li>`;
 	}).toString().replace(/,/g, '');

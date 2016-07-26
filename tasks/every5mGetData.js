@@ -14,8 +14,7 @@ exports.every5mGetData = function () {
 
 	var rule = new schedule.RecurrenceRule();
 	var times = [];
-	for(var i=1; i<60; i+=5){
-		console.log('=================================i',i);
+	for(var i=1; i<60; i+=1){
 		times.push(i);
 	}
 	rule.minute = times;
