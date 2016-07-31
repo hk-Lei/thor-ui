@@ -19,6 +19,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, 'public')));
 module.exports = app;
+
+//每五分钟请求一次数据
 every5mGetData();
 
 app.use(routes);
